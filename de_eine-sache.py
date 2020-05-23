@@ -7,7 +7,7 @@ from selenium.webdriver.support.wait import WebDriverWait
 from webdriver_manager.chrome import ChromeDriverManager
 
 pause = 0.1
-rounds = 2
+rounds = 50
 try:
     with open('duolingo-credential.json', 'r') as filehandle:
         duolingo = json.load(filehandle)
