@@ -179,7 +179,7 @@ class Duobot:
 
     def story_end(self):
         time.sleep(5)  # 5 seconds to see the earned xp
-        self.xp.append(self.xp_earned)
+        # self.xp.append(self.xp_earned)
         self.end_slides_continue_button()
         self.finish_button()
 
