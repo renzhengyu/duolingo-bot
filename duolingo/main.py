@@ -130,7 +130,7 @@ class Duobot:
 
     def word_button(self, the_word):
         return self.element_by_xpath(
-            f"//span[@class='phrase' and contains(., '{the_word}')][not(@disabled)]")
+            f"//span[@data-test='stories-phrase' and contains(., '{the_word}')][not(@disabled)]")
 
     def buttons_order(self, ordered_words):
         print(f"Clicking buttons in this order: {ordered_words}")
