@@ -103,7 +103,7 @@ class Duobot:
         self.password_input.send_keys(self.credentials["password"])
         self.wait()
         self.submit_button.click()
-        self.wait()
+        time.sleep(5)
         print("Log in successful.")
 
     @property
