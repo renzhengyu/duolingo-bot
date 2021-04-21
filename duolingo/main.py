@@ -61,7 +61,7 @@ class Duobot:
         # self.story_icon.click()
         self.driver.get('https://stories.duolingo.com'+self.story_url)
         self.wait()
-        self.element_by_class_name('story-starter-start-story').click()
+        self.element_by_xpath("//button[@data-test='story-start']").click()
         self.wait()
 
     def key_in_answer(self, answer, tag_name='textarea'):
