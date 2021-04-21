@@ -181,7 +181,7 @@ class Duobot:
         time.sleep(5)  # 5 seconds to see the earned xp
         # self.xp.append(self.xp_earned)
         self.end_slides_continue_button()
-        self.finish_button()
+        # self.finish_button()
 
     @property
     def word_pairs_filename(self):
