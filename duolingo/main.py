@@ -119,7 +119,7 @@ class Duobot:
     def button_group_answer(self, answer):
         print(f"Clicking {answer} button")
         self.element_by_xpath(
-            f"//button[contains(@class, 'selectable-token') and text()='{answer}'][not(@disabled)]").click()
+            f"//button[@data-test='stories-token' and text()='{answer}'][not(@disabled)]").click()
         self.wait()
 
     def list_answer_keyword(self, keyword):
@@ -140,12 +140,12 @@ class Duobot:
 
     def wait_until_pairing_buttons_appear(self):
         button = self.element_by_xpath(
-            "//button[contains(@class, 'selectable-token')]")
+            "//button[@data-test='stories-token']")
         self.wait()
 
     @property
     def all_elements_with_words_for_pairing(self):
-        return self.driver.find_elements_by_class_name('selectable-token')
+        return self.driver.find_elements_by_xpath("//button[@data-test='stories-token']")
 
     @property
     def all_words_for_pairing(self):
@@ -159,7 +159,7 @@ class Duobot:
     @property
     def all_matched_words(self):
         elements = self.driver.find_elements_by_class_name(
-            'match-grade-correct')
+            '_3alTu')
         return [element.text for element in elements]
 
     def end_slides_continue_button(self):
@@ -218,7 +218,7 @@ class Duobot:
         # 0. If there's a pair of identical words, click them.
         if self.find_duplicate():
             buttons = self.driver.find_elements_by_xpath(
-                f"//button[contains(@class, 'selectable-token') and text()='{self.find_duplicate()}'][not(@disabled)]")
+                f"//button[@data-test='stories-token'] and text()='{self.find_duplicate()}'][not(@disabled)]")
             for button in buttons:
                 button.click()
                 self.wait()
