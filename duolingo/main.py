@@ -164,7 +164,7 @@ class Duobot:
 
     def end_slides_continue_button(self):
         self.element_by_xpath(
-            "//button[@class='continue end-slides-continue-button'][not(@disabled)]").click()
+            "//button[@data-test='stories-player-done'][not(@disabled)]").click()
         self.wait()
 
     def finish_button(self):
