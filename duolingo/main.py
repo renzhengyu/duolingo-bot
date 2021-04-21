@@ -37,7 +37,7 @@ class Duobot:
 
     @property
     def login_button(self):
-        return self.element_by_class_name("login-button")
+        return self.element_by_xpath("//button[@id='sign-in-btn']")
 
     @property
     def username_input(self):
