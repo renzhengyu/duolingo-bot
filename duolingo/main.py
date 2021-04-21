@@ -49,7 +49,7 @@ class Duobot:
 
     @property
     def submit_button(self):
-        return self.element_by_class_name("submit-button")
+        return self.element_by_xpath("//button[@type='submit']")
 
     @property
     def story_icon(self):
