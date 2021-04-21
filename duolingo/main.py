@@ -14,7 +14,7 @@ from webdriver_manager.chrome import ChromeDriverManager
 class Duobot:
     def __init__(self, story_url):  # example: /lessons/de-verkehrskontrolle-teil-1-adaptation-a2
         self.duolingo_credential_file = 'duolingo-credential.json'
-        self.window_size_x = 375
+        self.window_size_x = 1200
         self.window_size_y = 600
         self.story_home_url = 'https://stories.duolingo.com'
         self.pause = 0.5
