@@ -119,7 +119,7 @@ class Duobot:
     def button_group_answer(self, answer):
         print(f"Clicking {answer} button")
         self.element_by_xpath(
-            f"//button[@data-test='stories-token' and text()='{answer}'][not(@disabled)]").click()
+            f"//button[(@data-test='stories-token' or @data-test='stories-choice') and text()='{answer}'][not(@disabled)]").click()
         self.wait()
 
     def list_answer_keyword(self, keyword):
