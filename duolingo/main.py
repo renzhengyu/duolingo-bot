@@ -108,7 +108,7 @@ class Duobot:
 
     @property
     def continue_button(self):
-        return self.element_by_xpath("//button[@class='continue'][not(@disabled)]")
+        return self.element_by_xpath("//button[@data-test='stories-player-continue'][not(@disabled)]")
 
     def click_continue(self, times=1):
         print(f"Clicking CONTINUE {times} times.")
