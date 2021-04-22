@@ -14,7 +14,7 @@ from webdriver_manager.chrome import ChromeDriverManager
 class Duobot:
     def __init__(self, story_url):  # example: /lessons/de-verkehrskontrolle-teil-1-adaptation-a2
         self.duolingo_credential_file = 'duolingo-credential.json'
-        self.window_size_x = 375
+        self.window_size_x = 1200
         self.window_size_y = 600
         self.story_home_url = 'https://stories.duolingo.com'
         self.pause = 0.5
@@ -37,7 +37,7 @@ class Duobot:
 
     @property
     def login_button(self):
-        return self.element_by_class_name("login-button")
+        return self.element_by_xpath("//button[@id='sign-in-btn']")
 
     @property
     def username_input(self):
@@ -49,7 +49,7 @@ class Duobot:
 
     @property
     def submit_button(self):
-        return self.element_by_class_name("submit-button")
+        return self.element_by_xpath("//button[@type='submit']")
 
     @property
     def story_icon(self):
@@ -61,7 +61,7 @@ class Duobot:
         # self.story_icon.click()
         self.driver.get('https://stories.duolingo.com'+self.story_url)
         self.wait()
-        self.element_by_class_name('story-starter-start-story').click()
+        self.element_by_xpath("//button[@data-test='story-start']").click()
         self.wait()
 
     def key_in_answer(self, answer, tag_name='textarea'):
@@ -103,12 +103,12 @@ class Duobot:
         self.password_input.send_keys(self.credentials["password"])
         self.wait()
         self.submit_button.click()
-        self.wait()
+        time.sleep(5)
         print("Log in successful.")
 
     @property
     def continue_button(self):
-        return self.element_by_xpath("//button[@class='continue'][not(@disabled)]")
+        return self.element_by_xpath("//button[@data-test='stories-player-continue'][not(@disabled)]")
 
     def click_continue(self, times=1):
         print(f"Clicking CONTINUE {times} times.")
@@ -119,7 +119,7 @@ class Duobot:
     def button_group_answer(self, answer):
         print(f"Clicking {answer} button")
         self.element_by_xpath(
-            f"//button[contains(@class, 'selectable-token') and text()='{answer}'][not(@disabled)]").click()
+            f"//button[(@data-test='stories-token' or @data-test='stories-choice') and text()='{answer}'][not(@disabled)]").click()
         self.wait()
 
     def list_answer_keyword(self, keyword):
@@ -130,7 +130,7 @@ class Duobot:
 
     def word_button(self, the_word):
         return self.element_by_xpath(
-            f"//span[@class='phrase' and contains(., '{the_word}')][not(@disabled)]")
+            f"//span[@data-test='stories-phrase' and contains(., '{the_word}')][not(@disabled)]")
 
     def buttons_order(self, ordered_words):
         print(f"Clicking buttons in this order: {ordered_words}")
@@ -140,12 +140,12 @@ class Duobot:
 
     def wait_until_pairing_buttons_appear(self):
         button = self.element_by_xpath(
-            "//button[contains(@class, 'selectable-token')]")
+            "//button[@data-test='stories-token']")
         self.wait()
 
     @property
     def all_elements_with_words_for_pairing(self):
-        return self.driver.find_elements_by_class_name('selectable-token')
+        return self.driver.find_elements_by_xpath("//button[@data-test='stories-token']")
 
     @property
     def all_words_for_pairing(self):
@@ -159,12 +159,12 @@ class Duobot:
     @property
     def all_matched_words(self):
         elements = self.driver.find_elements_by_class_name(
-            'match-grade-correct')
+            '_3alTu')
         return [element.text for element in elements]
 
     def end_slides_continue_button(self):
         self.element_by_xpath(
-            "//button[@class='continue end-slides-continue-button'][not(@disabled)]").click()
+            "//button[@data-test='stories-player-done'][not(@disabled)]").click()
         self.wait()
 
     def finish_button(self):
@@ -179,9 +179,9 @@ class Duobot:
 
     def story_end(self):
         time.sleep(5)  # 5 seconds to see the earned xp
-        self.xp.append(self.xp_earned)
+        self.xp.append(1)
         self.end_slides_continue_button()
-        self.finish_button()
+        # self.finish_button()
 
     @property
     def word_pairs_filename(self):
@@ -218,7 +218,7 @@ class Duobot:
         # 0. If there's a pair of identical words, click them.
         if self.find_duplicate():
             buttons = self.driver.find_elements_by_xpath(
-                f"//button[contains(@class, 'selectable-token') and text()='{self.find_duplicate()}'][not(@disabled)]")
+                f"//button[@data-test='stories-token'] and text()='{self.find_duplicate()}'][not(@disabled)]")
             for button in buttons:
                 button.click()
                 self.wait()
