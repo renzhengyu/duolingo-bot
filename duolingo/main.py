@@ -56,15 +56,17 @@ class Duobot:
         return self.element_by_xpath(f"//a[@href='{self.story_url}']")
 
     def story_begin(self):
-        print("Story begins.")
         # ActionChains(self.driver).move_to_element(self.story_icon).perform()
         # self.story_icon.click()
+        print(f"Loading {'https://stories.duolingo.com'+self.story_url}")
         self.driver.get('https://stories.duolingo.com'+self.story_url)
         self.wait()
+        print("Story begins")
         self.element_by_xpath("//button[@data-test='story-start']").click()
         self.wait()
 
     def key_in_answer(self, answer, tag_name='textarea'):
+        print(f"Typing the answer: \"{answer}\"")
         textarea = self.element_by_tag_name(tag_name)
         self.wait()
         textarea.send_keys(answer)
@@ -104,26 +106,26 @@ class Duobot:
         self.wait()
         self.submit_button.click()
         time.sleep(5)
-        print("Log in successful.")
+        print("Log in successful")
 
     @property
     def continue_button(self):
         return self.element_by_xpath("//button[@data-test='stories-player-continue'][not(@disabled)]")
 
     def click_continue(self, times=1):
-        print(f"Clicking CONTINUE {times} times.")
+        print(f"Clicking CONTINUE {times} times")
         for i in range(times):
             self.continue_button.click()
             self.wait()
 
     def button_group_answer(self, answer):
-        print(f"Clicking {answer} button")
+        print(f"Clicking \"{answer}\" button")
         self.element_by_xpath(
             f"//button[(@data-test='stories-token' or @data-test='stories-choice') and text()='{answer}'][not(@disabled)]").click()
         self.wait()
 
     def list_answer_keyword(self, keyword):
-        print(f"clicking the right answer that contains: {keyword}")
+        print(f"Clicking the answer that contains \"{keyword}\"")
         self.element_by_xpath(
             f"//span[text()='{keyword}'][not(@disabled)]").click()
         self.wait()
@@ -133,7 +135,7 @@ class Duobot:
             f"//span[@data-test='stories-phrase' and contains(., '{the_word}')][not(@disabled)]")
 
     def buttons_order(self, ordered_words):
-        print(f"Clicking buttons in this order: {ordered_words}")
+        print(f"Clicking buttons in order: {ordered_words}")
         for word in ordered_words:
             self.word_button(word).click()
             self.wait()
@@ -194,7 +196,7 @@ class Duobot:
     def load_dictionary(self):
         word_pairs_file = pathlib.Path(self.word_pairs_filename)
         if word_pairs_file.exists():
-            print(f"Loading dictionary from {self.word_pairs_filename}.")
+            print(f"Loading dictionary from {self.word_pairs_filename}")
             with open(self.word_pairs_filename, 'r') as filehandle:
                 self.dictionary = json.load(filehandle)
                 print(
@@ -203,7 +205,7 @@ class Duobot:
                 pp.pprint(self.dictionary)
         else:
             print(
-                f"Dictionary doesnot exist. Will create {self.word_pairs_filename}")
+                f"Dictionary does not exist. Will create {self.word_pairs_filename}")
 
     def find_duplicate(self):
         check_list = []
@@ -229,21 +231,21 @@ class Duobot:
             if self.word_in_dict(word):
                 a = word
                 b = self.translate(a)
-                print(f"Found pair {a} / {b} in dictionary.")
+                print(f"Found pair \"{a}\" / \"{b}\" in dictionary")
                 self.button_group_answer(a)
                 self.button_group_answer(b)
 
         # 2. If there are still word unsolved
         previously = self.all_words_for_pairing
         while len(self.all_words_for_pairing) > 0:
-            print('Please pair 2 words.')
+            print('Please pair 2 words')
             if len(previously) - len(self.all_words_for_pairing) == 2:
                 difference = list(set(previously) -
                                   set(self.all_words_for_pairing))
                 a = difference[0]
                 b = a if len(difference) == 1 else difference[1]
                 previously = self.all_words_for_pairing
-                print(f"Found manual pairing: {a} / {b}")
+                print(f"Found manual pairing: \"{a}\" / \"{b}\"")
                 self.commit_words_to_dictionary(a, b)
             else:
                 time.sleep(1)
@@ -252,7 +254,7 @@ class Duobot:
                 b = self.all_words_for_pairing[1]
                 self.button_group_answer(a)
                 self.button_group_answer(b)
-                print(f"Regarding the last 2 words as a new pair: {a} / {b}")
+                print(f"Regarding the last 2 words as a new pair: \"{a}\" / \"{b}\"")
                 self.commit_words_to_dictionary(a, b)
 
     def commit_words_to_dictionary(self, a, b):
